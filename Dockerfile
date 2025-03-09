@@ -12,13 +12,18 @@ ENV \
     LANG="C.UTF-8" \
     DEBIAN_FRONTEND="noninteractive" \
     CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt" \
-    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
-    S6_CMD_WAIT_FOR_SERVICES=1 \
-    S6_SERVICES_READYTIME=50 \
     BASHIO_VERSION="0.16.2" \
     TEMPIO_VERSION="2024.11.2" \
     S6_OVERLAY_VERSION="3.1.6.2"
+
+ENV \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES=1 \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+    S6_SERVICES_GRACETIME=15000 \
+    S6_SERVICES_READYTIME=50 \
+    S6_KEEP_ENV=1
+
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -77,7 +82,11 @@ USER root
 ENTRYPOINT ["/init"]
 
 COPY rootfs /
-RUN chmod -R a+rw /var/lib/nginx && chmod -R a+rw /var/log/nginx
+RUN \
+    chmod -R a+rw /var/lib/nginx && \
+    chmod -R a+rw /var/log/nginx && \
+    chmod -R a+rw /freqtrade
+
 USER ftuser
 
 LABEL \
