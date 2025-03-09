@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv bashio
+
+CONFIG_PATH=/data/options.json
+STRATEGY="$(bashio::config 'strategy')"
+
+cd /freqtrade
+USER_DATA="/freqtrade/user_data"
+
+if [ ! -f "$USER_DATA/config.json" ]; then
+  bashio::log.info "$USER_DATA does not exist."
+  freqtrade create-userdir --userdir $USER_DATA
+  echo "{}" > $USER_DATA/config.json
+  bashio::log.info "Please create your config.json file."
+  exit 1
+fi
+
+bashio::log.info  "Starting freqtrade with Strategy $STRATEGY..."
+chmod -R a+rw $USER_DATA
+exec freqtrade trade --logfile $USER_DATA/logs/freqtrade.log --db-url sqlite:///$USER_DATA/tradesv3.sqlite --config $USER_DATA/config.json --strategy $STRATEGY
