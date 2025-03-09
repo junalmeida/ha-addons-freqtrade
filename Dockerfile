@@ -87,8 +87,6 @@ RUN \
     chmod -R a+rw /var/log/nginx && \
     chmod -R a+rw /freqtrade
 
-USER ftuser
-
 LABEL \
   io.hass.version="$BUILD_VERSION" \
   io.hass.type="addon" \

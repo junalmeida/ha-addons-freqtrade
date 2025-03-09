@@ -15,5 +15,7 @@ if [ ! -f "$USER_DATA/config.json" ]; then
 fi
 
 bashio::log.info  "Starting freqtrade with Strategy $STRATEGY..."
-sudo chmod -R a+rw $USER_DATA
-exec freqtrade trade --logfile $USER_DATA/logs/freqtrade.log --db-url sqlite:///$USER_DATA/tradesv3.sqlite --config $USER_DATA/config.json --strategy $STRATEGY
+chmod -R a+rw $USER_DATA
+HOME=/home/ftuser
+export HOME
+exec s6-setuidgid ftuser freqtrade trade --logfile $USER_DATA/logs/freqtrade.log --db-url sqlite:///$USER_DATA/tradesv3.sqlite --config $USER_DATA/config.json --strategy $STRATEGY
