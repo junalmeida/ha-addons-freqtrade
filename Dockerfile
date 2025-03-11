@@ -1,3 +1,12 @@
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:22-bookworm as frequi
+RUN \
+    cd / && \
+    git clone https://github.com/freqtrade/frequi.git && \
+    cd frequi && \
+    pnpm install && \
+    pnpm run build --base=./
+
+
 FROM freqtradeorg/freqtrade:stable
 USER root
 
@@ -82,10 +91,13 @@ USER root
 ENTRYPOINT ["/init"]
 
 COPY rootfs /
+COPY --from=frequi /frequi /frequi
 RUN \
     chmod -R a+rw /var/lib/nginx && \
     chmod -R a+rw /var/log/nginx && \
-    chmod -R a+rw /freqtrade
+    chmod -R a+rw /freqtrade && \
+    chmod -R a+rx /etc/services.d && \
+    chmod a+rx /init
 
 LABEL \
   io.hass.version="$BUILD_VERSION" \
