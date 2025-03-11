@@ -91,7 +91,7 @@ USER root
 ENTRYPOINT ["/init"]
 
 COPY rootfs /
-COPY --from=frequi /frequi /frequi
+COPY --from=frequi /frequi/dist /frequi
 RUN \
     chmod -R a+rw /var/lib/nginx && \
     chmod -R a+rw /var/log/nginx && \
