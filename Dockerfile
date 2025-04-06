@@ -3,6 +3,7 @@ RUN \
     cd / && \
     git clone https://github.com/freqtrade/frequi.git && \
     cd frequi && \
+    sed -i 's/const defaultURL = window.location.origin/const defaultURL = window.location.href/g' src/components/BotLogin.vue && \
     pnpm install && \
     pnpm run build --base=./
 

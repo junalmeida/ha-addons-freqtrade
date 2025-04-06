@@ -1,5 +1,5 @@
 name: "FreqTrade"
-version: "2025.2.0"
+version: "2025.3.0"
 slug: freqtrade
 description: "Freqtrade is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning."
 arch:

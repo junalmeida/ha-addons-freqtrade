@@ -1,0 +1,1 @@
+/freqtrade/user_data true ftuser 0660 0755
